@@ -1,9 +1,9 @@
 name: testiranje123
 
 on:
-  push:
+  pull_request:
     branches:
-      - test
+      - main
     paths:
       - test1
       - test2
