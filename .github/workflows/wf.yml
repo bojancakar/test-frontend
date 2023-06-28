@@ -1,15 +1,15 @@
 name: testiranje123
 
 on:
-  push:
+  pull_request:
     branches:
-      - test
+      - main
     paths:
-      - test1
-      - test2
-      - test3
-      - test4
-
+      - 'test1/**'
+      - 'test2/**'
+      - 'test3/**'
+      - 'test4/**'
+      
 jobs:
   check_and_wait:
     runs-on: ubuntu-latest
