@@ -1,0 +1,32 @@
+name: testiranje123
+
+on:
+  push:
+    branches:
+      - test
+    paths:
+      - test1
+      - test2
+      - test3
+      - test4
+
+jobs:
+  check_and_wait:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Provera statusa akcije
+        id: check_action_status
+        run: |
+          status=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+                   -H "Accept: application/vnd.github.v3+json" \
+                   https://api.github.com/repos/${{ github.repository }}/actions/workflows/testiranje123/runs)
+
+          running=$(echo $status | jq '.workflow_runs[] | select(.status == "in_progress")')
+
+          if [[ -n "$running" ]]; then
+            echo "Postoji aktivna akcija sa istim imenom. Čekanje 3 sekunde..."
+            sleep 15
+          else
+            echo "Nema aktivne akcije sa istim imenom. Nastavljanje sa izvršavanjem."
+          fi
